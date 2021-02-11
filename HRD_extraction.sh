@@ -13,6 +13,7 @@ date_str=2017091 # first date string, eg all dates beginning with a 1 in Septemb
 date_2str=2017092 # second date string, eg all dates beginning with a 2 in September 2017
 year=17
 name=maria
+skewt=true
 
 # Extract the AVP files
 if [ "$make_dirs" = "true" ]; then mkdir AVP; cd AVP; fi # Makes and enters directory
@@ -38,15 +39,12 @@ wget -r -np -nd -A $date_2str'*_FRD.tar.gz' ftp://ftp.aoml.noaa.gov/hrd/pub/data
 if [ "$make_dirs" = "true" ]; then for f in *.tar.gz; do tar xf "$f"; done; cd -; fi 
 
 # Extract the skew-T files
-mkdir skewT; cd skewT
+if [ "$skewt" = "true" ]; then mkdir skewT; cd skewT;
 wget -r -np -nd -A $date_str'*_XYPLOTS.tar.gz' ftp://ftp.aoml.noaa.gov/hrd/pub/data/dropsonde/AFRES$year/skewt/
 wget -r -np -nd -A $date_2str'*_XYPLOTS.tar.gz' ftp://ftp.aoml.noaa.gov/hrd/pub/data/dropsonde/AFRES$year/skewt/
-
 wget -r -np -nd -A $date_str'*_SKEWT.tar.gz' ftp://ftp.aoml.noaa.gov/hrd/pub/data/dropsonde/HURR$year/skewt/
 wget -r -np -nd -A $date_2str'*_SKEWT.tar.gz' ftp://ftp.aoml.noaa.gov/hrd/pub/data/dropsonde/HURR$year/skewt/
-
-# Decompress and go to prevous directory
-for f in *.tar.gz; do tar xf "$f"; done; rm -f *.tar.gz; cd -
+for f in *.tar.gz; do tar xf "$f"; done; rm -f *.tar.gz; cd -; fi
 
 # Extract the radar images
 mkdir radar; cd radar
