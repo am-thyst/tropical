@@ -12,6 +12,7 @@ make_dirs=false
 date_str=2017091 # first date string, eg all dates beginning with a 1 in September 2017
 date_2str=2017092 # second date string, eg all dates beginning with a 2 in September 2017
 year=17
+name=maria
 
 # Extract the AVP files
 if [ "$make_dirs" = "true" ]; then mkdir AVP; cd AVP; fi # Makes and enters directory
@@ -45,6 +46,11 @@ wget -r -np -nd -A $date_str'*_SKEWT.tar.gz' ftp://ftp.aoml.noaa.gov/hrd/pub/dat
 wget -r -np -nd -A $date_2str'*_SKEWT.tar.gz' ftp://ftp.aoml.noaa.gov/hrd/pub/data/dropsonde/HURR$year/skewt/
 
 # Decompress and go to prevous directory
+for f in *.tar.gz; do tar xf "$f"; done; rm -f *.tar.gz; cd -
+
+# Extract the radar images
+mkdir radar; cd radar
+wget -r -np -nd -A *.tar.gz ftp://ftp.aoml.noaa.gov/pub/hrd/data/radar/20$year/$name/
 for f in *.tar.gz; do tar xf "$f"; done; rm -f *.tar.gz; cd -
 
 # Decompresses
