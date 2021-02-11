@@ -11,9 +11,7 @@ The script also "cleans up" by removing the .tar.gz files after extraction.
 make_dirs=false
 date_str=2017091 # first date string, eg all dates beginning with a 1 in September 2017
 date_2str=2017092 # second date string, eg all dates beginning with a 2 in September 2017
-year=17
-name=maria
-skewt=true
+year=17; name=maria; radar=true; skewt=true
 
 # Extract the AVP files
 if [ "$make_dirs" = "true" ]; then mkdir AVP; cd AVP; fi # Makes and enters directory
@@ -47,9 +45,9 @@ wget -r -np -nd -A $date_2str'*_SKEWT.tar.gz' ftp://ftp.aoml.noaa.gov/hrd/pub/da
 for f in *.tar.gz; do tar xf "$f"; done; rm -f *.tar.gz; cd -; fi
 
 # Extract the radar images
-mkdir radar; cd radar
+if [ "$radar" = "true" ]; then mkdir radar; cd radar
 wget -r -np -nd -A *.tar.gz ftp://ftp.aoml.noaa.gov/pub/hrd/data/radar/20$year/$name/
-for f in *.tar.gz; do tar xf "$f"; done; rm -f *.tar.gz; cd -
+for f in *.tar.gz; do tar xf "$f"; done; rm -f *.tar.gz; cd -; fi
 
 # Decompresses
 if [ "$make_dirs" = "false" ]; then for f in *.tar.gz; do tar xf "$f"; done; rm -f *.tar.gz; cd -; fi 
