@@ -53,10 +53,12 @@ for f in *.tar.gz; do tar xf "$f"; done; rm -f *.tar.gz; cd -; fi
 if [ "$make_dirs" = "false" ]; then for f in *.tar.gz; do tar xf "$f"; done; rm -f *.tar.gz; cd -; fi 
 
 # Logs all filenames with the associated mission IDs 
+if [ "$make_dirs" = "true" ]; then cd AVP; fi
 touch log.txt sorted_avps.txt
 for file in *.avp; do    tail -n 19 $file | head -n 2 | tail -n 1 | sed -e "s/$/\"$file\"/"; done >> log.txt
 
 # merges filename into lines and sorts by mission ID
 awk 'NR%2{printf "%s ",$0;next;}1' log.txt | sort -t: -k 3 >> sorted_avps.txt
 rm -f log.txt
+cd -
 
